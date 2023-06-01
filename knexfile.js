@@ -4,6 +4,6 @@ module.exports = {
 		host: "127.0.0.1",
 		database: "movies",
 		user: "root",
-		password: "&MySQL$$!^!1823"
+		password: "Cab230!"
 	}
 }

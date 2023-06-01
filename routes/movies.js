@@ -25,8 +25,8 @@ router.get("/search",function(req,res,next) {
 		.select("primaryTitle","year","tconst","imdbRating","rottentomatoesRating","metacriticRating","rated")
 		.where("primaryTitle","like","%"+title+"%")
 		.where("year","like","%"+year+"%")
+		.orderBy("tconst","asc")
 		.then((rows) => {
-			console.log(rows);
 			// Page selection
 			endRow = (page*RESULTS_LIMIT);
 			if (page*RESULTS_LIMIT > rows.length) {

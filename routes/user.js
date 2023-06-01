@@ -410,7 +410,7 @@ router.put('/:email/profile', authorization, (req, res) => {
 		res.status(400);
 		res.json({
 			error: true, 
-			message: "Request body invalid: firstName, lastName and address must be strings only."
+			message: "Request body invalid: firstName, lastName, dob and address must be strings only."
 		});
 		return;
 	}

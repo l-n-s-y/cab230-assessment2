@@ -3,8 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const swaggerUI = require("swagger-ui-express");
-const fs = require("fs");
-const https = require("https");
 const helmet = require("helmet");
 const cors = require("cors");
 
@@ -19,18 +17,10 @@ const moviesRouter = require('./routes/movies');
 const userRouter = require('./routes/user');
 const peopleRouter = require('./routes/people');
 
-const private_key = fs.readFileSync('sslcert/server.key', 'utf8');
-const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
-
-const credentials = {key: private_key, cert: certificate};
 const app = express();
 
 // Enable security middlewares
 app.use(helmet());
-
-// Setup HTTPS
-const server = https.createServer(credentials,app);
-server.listen(3000); // Listen on 3000
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

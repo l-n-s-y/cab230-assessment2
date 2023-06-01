@@ -11,7 +11,6 @@ module.exports = function(req,res,next) {
 			return;
 		}
 		if (!token_data.r_exp) {
-			console.log(token_data);
 			res.status(401);
 			res.json({error: true, message: "Invalid JWT token"});
 			return;

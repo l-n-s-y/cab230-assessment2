@@ -112,38 +112,7 @@ router.post('/login', function(req, res, next) {
 		});
 });
 
-//router.post('/refresh', function(req, res, next) {
 router.post("/refresh", refresh, (req, res) => {
-	/*let ref_token = req.body.refreshToken;
-
-	if (!ref_token) {
-		res.status(400);
-		res.json({error: true, message: "Request body incomplete, refresh token required"});
-		return;
-	}
-
-	let token_data = {};
-	try {
-		token_data = jwt.verify(ref_token,process.env.JWT_SECRET);
-		if (!token_data.r_exp) {
-			res.status(401);
-			res.json({error: true, message: "Invalid JWT token"});
-			return;
-		}
-
-		if (Date.now()/1000 >= token_data.r_exp) {
-			// Token expired
-			res.status(401);
-			res.json({error:true,message:"JWT token has expired"});
-			return;
-		}
-
-		
-	} catch {
-		res.status(401);
-		res.json({error: true, message: "Invalid JWT token"});
-		return;
-	}*/
 
 	let token_data = res.locals.refresh_data;
 
@@ -185,36 +154,7 @@ router.post("/refresh", refresh, (req, res) => {
 
 });
 
-//router.post('/logout', function(req, res, next) {
 router.post("/logout", refresh, (req, res) => {
-	/*let r_token = req.body.refreshToken;
-
-	if (!r_token) {
-		res.status(400);
-		res.json({error: true, message: "Request body incomplete, refresh token required"});
-		return;
-	}
-
-	let token_data = {}
-	try {
-		token_data = jwt.verify(r_token,process.env.JWT_SECRET);
-		if (!token_data.r_exp) {
-			res.status(401);
-			res.json({error: true, message: "Invalid JWT token"});
-			return;
-		}
-
-		if (Date.now()/1000 >= token_data.r_exp) {
-			// Token expired
-			res.status(401);
-			res.json({error:true,message:"JWT token has expired"});
-			return;
-		}
-	} catch {
-		res.status(401);
-		res.json({error: true, message: "Invalid JWT token"});
-		return;
-	}*/
 	let token_data = res.locals.refresh_data;
 
 	// Remove token from DB
@@ -238,7 +178,6 @@ router.post("/logout", refresh, (req, res) => {
 //router.get('/:email/profile', function(req, res, next) {
 router.get('/:email/profile', profile_authorization, (req,res) => {
 	let email = req.params.email;
-	//let b_token = req.get("Authorization"); // Grab auth token
 
 	req.db("users")
 		.select("firstName","lastName","dob","address")
@@ -253,48 +192,6 @@ router.get('/:email/profile', profile_authorization, (req,res) => {
 				return;
 			}
 
-			// If token present
-			/*if (!b_token) {
-				res.status(200);
-				res.json({
-					email: email, 
-					firstName: user_data.firstName, 
-					lastName: user_data.lastName
-				});
-				return;
-			}
-
-			// Check for 'Bearer' prefix
-			if (b_token.substr(0,"Bearer ".length) !== "Bearer ") {
-				res.status(401);
-				res.json({error: true, message: "Authorization header is malformed"});
-				return;
-			}
-			
-			// Separate token from 'Bearer' prefix
-			b_token = b_token.substr("Bearer ".length,b_token.length);
-
-			// Validate token
-			let token_data = {};
-			try {
-				token_data = jwt.verify(b_token,process.env.JWT_SECRET);
-			} catch (e) {
-				res.status(401);
-				res.json({error: true, message: "Invalid JWT token"});
-				return;
-			}
-				
-			// Check expiration
-			if (Date.now()/1000 >= token_data.b_exp) {
-				// Expired
-				res.status(401);
-				res.json({error: true, message: "JWT token has expired"});
-				return;
-			}*/
-
-			// Accessing another user's data
-			//const b_token = ("Authorization").replace(/^Bearer /, "");
-			//let token_data = jwt.verify(b_token,process.env.JWT_SECRET);
 			let token_data = res.locals.token_data;
 			if (token_data.email !== email) {
 				res.status(200);
@@ -342,35 +239,6 @@ router.put('/:email/profile', authorization, (req, res) => {
 		return;
 	}
 
-
-	// If token not present
-	/*if (!b_token) {
-		res.status(401);
-		//res.status(421);
-		res.json({error: true, message: "Authorization header ('Bearer token') not found"});
-		return;
-	}
-
-	// Check for 'Bearer' prefix
-	if (b_token.substr(0,"Bearer ".length) !== "Bearer ") {
-		res.status(401);
-		res.json({error: true, message: "Authorization header is malformed"});
-		return;
-	}
-
-	// Separate token from 'Bearer' prefix
-	b_token = b_token.substr("Bearer ".length,b_token.length);
-
-	// Validate token
-	let token_data = {};
-	try {
-		token_data = jwt.verify(b_token,process.env.JWT_SECRET);
-	} catch (e) {
-		res.status(401);
-		res.json({error: true, message: "Invalid JWT token"});
-		return;
-	}*/
-
 	let token_data = res.locals.token_data;
 
 	// Compare profile and token emails
@@ -379,14 +247,6 @@ router.put('/:email/profile', authorization, (req, res) => {
 		res.json({error: true, message: "Forbidden"});
 		return;
 	}
-
-	// Check expiration
-	/*if (Date.now()/1000 >= token_data.b_exp) {
-		// Expired
-		res.status(401);
-		res.json({error: true, message: "JWT token has expired"});
-		return;
-	}*/
 
 	// Check for required input data
 	if (!update_data.firstName || !update_data.lastName || !update_data.dob || !update_data.address) {

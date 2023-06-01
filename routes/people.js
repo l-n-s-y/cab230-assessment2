@@ -4,40 +4,7 @@ const router = express.Router();
 const authorization = require("../middleware/authorization");
 
 /* GET person page. */
-//router.get("/:id", function(req, res, next) {
 router.get("/:id",authorization, (req, res) => {
-	/*let b_token = req.get("Authorization"); // Grab auth token
-	if (!b_token || b_token.substr(0,"Bearer ".length) !== "Bearer ") {
-		res.status(401);
-		res.json({error: true, message: "Authorization header ('Bearer token') not found"});
-		return;
-	}
-
-	b_token = b_token.substr("Bearer ".length,b_token.length);
-	let token_data = {};
-	try {
-		token_data = jwt.verify(b_token,process.env.JWT_SECRET);
-	} catch (e) {
-		res.status(401);
-		//if (e.message === "jwt malformed") {
-		res.json({error: true, message: "Invalid JWT token"});
-			//res.json({error: true, message: "Authorization header ('Bearer token') not found"});
-		/*} else if (e.message === "invalid token") {
-			res.json({error: true, message: "INVALID"});
-			//res.json({error: true, message: "Authorization header ('Bearer token') not found"});
-		}
-
-		return;
-	}
-	
-	// Check expiration
-	if (Date.now()/1000 >= token_data.b_exp) {
-		// Expired
-		res.status(401);
-		res.json({error: true, message:"JWT token has expired"});
-		return;
-	}*/
-
 	let person_id = req.params.id;
 
 	let query_keys = Object.keys(req.query).toString();

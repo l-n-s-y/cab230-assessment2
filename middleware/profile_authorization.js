@@ -18,7 +18,6 @@ module.exports = function (req, res, next) {
 			throw {error:true,name:"TokenExpiredError"};
 		}
 	} catch (e) {
-		console.log(e.message);
 		if (e.name === "TokenExpiredError") {
 			res.status(401).json({ error: true, message: "JWT token has expired" });
 			return;

@@ -44,15 +44,6 @@ app.get("/", swaggerUI.setup(swaggerDoc));
 app.use('/movies',moviesRouter);
 app.use('/people',peopleRouter);
 app.use('/user',userRouter);
-/*app.use("/knex", function (req, res, next) {
-	req.db.raw("SELECT VERSION()")
-	.then((version) => console.log(version[0][0]))
-	.catch((err) => {
-		console.log(err);
-		throw err;
-	});
-	res.send("Version Logged successfully");
-});*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

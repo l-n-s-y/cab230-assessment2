@@ -21,12 +21,12 @@ router.get("/search",function(req,res,next) {
 		return;
 	}
 
-	req.db
-		.from("basics")
+	req.db("basics")
 		.select("primaryTitle","year","tconst","imdbRating","rottentomatoesRating","metacriticRating","rated")
-		.where("primaryTitle","LIKE","%"+title+"%")
-		.where("year","LIKE","%"+year+"%")
+		.where("primaryTitle","like","%"+title+"%")
+		.where("year","like","%"+year+"%")
 		.then((rows) => {
+			console.log(rows);
 			// Page selection
 			endRow = (page*RESULTS_LIMIT);
 			if (page*RESULTS_LIMIT > rows.length) {
@@ -145,19 +145,6 @@ router.get("/data/:imdbID",function(req,res,next) {
 			.where("tconst","=",imdbID)
 			.then((rows) => {
 				principal_data = rows;
-
-				/*let data = {
-					title: movie_data.primaryTitle,
-					year: movie_data.year,
-					runtime: movie_data.runtimeMinutes,
-					genres: movie_data.genres.split(","),
-					country: movie_data.country,
-					principals: format_principals(principal_data),
-					ratings: format_ratings(movie_data),
-					boxoffice: movie_data.boxoffice,
-					poster: movie_data.poster,
-					plot: movie_data.plot
-				};*/
 
 				res.status(200);
 				res.json({
